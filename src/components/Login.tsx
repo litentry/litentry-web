@@ -7,6 +7,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import QrReader from 'react-qr-reader';
 import {useTokenOwner} from '../hooks';
 import {actions, AppContext} from '../store';
+import Alert from './Alert';
 import {IdentitiesList} from './IdentitiesList';
 import Text from './Text';
 
@@ -14,6 +15,7 @@ export default function Login() {
 	const {state, dispatch} = useContext(AppContext);
 	const [token, setToken] = useState<string>('');
 	const [scannerOpen, setScannerOpen] = useState<boolean>(true);
+	const [alertOpen, setAlertOpen] = useState<boolean>(false);
 	const tokenOwner = useTokenOwner(token);
 
 	useEffect(()=> {
@@ -21,10 +23,10 @@ export default function Login() {
 		if(state.currentIdentity !== null && tokenOwner !== ''){
 			if(tokenOwner === state.currentIdentity) {
 				setScannerOpen(false);
-				window.alert('login success!')
+				setAlertOpen(true);
 			}
 		}
-	}, [tokenOwner, state.currentIdentity]);
+	}, [tokenOwner, state.currentIdentity, token]);
 
 	const handleError = ():void => {};
 	const handleScan = (data: string | null) => {
@@ -57,6 +59,6 @@ export default function Login() {
 			}}/>
 		</>
 		}
-
+		<Alert open={alertOpen} setOpen={setAlertOpen} title="Success" text="Login Success! That's how it works!"/>
 	</Container>
 }
