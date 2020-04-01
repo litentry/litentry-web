@@ -4,6 +4,7 @@ import {ExitToApp, Storage, VpnKey} from '@material-ui/icons';
 import React, {useContext} from 'react';
 import {drawerWidth} from '../constant';
 import {actions, AppContext} from '../store';
+import Text from './Text';
 
 export default function SideBar() {
 	const styles = useStyles();
@@ -20,18 +21,14 @@ export default function SideBar() {
 			icon: <VpnKey/>,
 			text: 'Sign Up',
 			route: 'signUp',
-		},
-		{
-			icon: <Storage/>,
-			text: 'Check Database',
-			route: 'database',
-		},
+		}
 	];
 
 	const drawer = (
 		<div>
 			<div className={styles.toolbar}/>
 			<Divider/>
+			<Text text="IoT Scenario" variant="h6"/>
 			<List>
 				{listItems.map((item, index) => (
 					<ListItem button key={'SideBarList' + index} onClick={() => {
@@ -42,6 +39,9 @@ export default function SideBar() {
 					</ListItem>
 				))}
 			</List>
+			<Divider/>
+			<Text text="Web Scenario" variant="h6"/>
+			<Text text="Coming Soon..." variant="h6"/>
 		</div>
 	);
 

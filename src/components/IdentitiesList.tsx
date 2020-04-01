@@ -8,7 +8,10 @@ export function IdentitiesList ({identities, onClick} : {
 }) {
 	return <List>
 	{identities.map((identity, index) => (
-			<ListItem button key={identity+index} onClick={(v:any)=>onClick(v)}>
+			<ListItem button key={identity+index} onClick={(e:any): void=>{
+				e.preventDefault();
+				onClick(identity)
+			}}>
 				<Text variant='h4' text={identity}/>
 			</ListItem>
 		))}

@@ -3,7 +3,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import {Variant} from '@material-ui/core/styles/createTypography';
 import React from 'react';
 
-export default function({variant, text}: {
+export default function Text({variant, text}: {
 	variant?: Variant | 'inherit';
 	text: string;
 }) {

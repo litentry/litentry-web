@@ -10,6 +10,7 @@ import SignUp from './components/SignUp';
 import {drawerWidth} from './constant';
 import {initState, reducer as storeReducer, StateProvider} from './store';
 import theme from './themes';
+import Text from './components/Text';
 
 const renderMain = (route:string): React.ReactElement => {
   switch (route) {
@@ -18,7 +19,9 @@ const renderMain = (route:string): React.ReactElement => {
     case 'login':
       return <Login/>;
     default:
-      return <div>Test your identity module</div>
+      return <Container>
+        <Text text="Welcome to the Litentry Playground!" variant="h3"/>
+      </Container>
   }
 }
 
@@ -38,22 +41,6 @@ function App() {
         </ThemeProvider>
       </StateProvider>
     </div>
-    // <div className="App">
-    //   <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-    //       Edit <code>src/App.tsx</code> and save to reload.
-    //     </p>
-    //     <a
-    //       className="App-link"
-    //       href="https://reactjs.org"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn React
-    //     </a>
-    //   </header>
-    // </div>
   );
 }
 

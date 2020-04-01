@@ -22,7 +22,7 @@ export interface AppContextType {
 export const initState = {
 	route: 'main',
 	drawerOpen: false,
-	identities: ['0x123456562564254325432'],
+	identities: [],
 	currentIdentity: null,
 };
 

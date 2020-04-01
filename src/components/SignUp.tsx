@@ -30,10 +30,11 @@ export default function SignUp() {
 					style={{maxWidth: 300}}
 				/> :
 				<Button variant="contained" onClick={()=>setScannerOpen(true)}>
-					Scan Again
+					Sign Another Identity
 				</Button>
 			}
-			<IdentitiesList identities={state.identities} onClick={(identity: string)=> {
+			<Text text="Identities Signed before" variant="h4"/>
+			<IdentitiesList identities={state.identities} onClick={(identity: string): void=> {
 				dispatch({type: actions.LOGIN_START, data: {identity}})
 			}}/>
 		</Container>
