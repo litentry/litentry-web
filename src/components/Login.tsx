@@ -1,7 +1,6 @@
 import {
 	Button,
 	Container,
-	Modal,
 } from '@material-ui/core';
 import React, {useContext, useEffect, useState} from 'react';
 import QrReader from 'react-qr-reader';

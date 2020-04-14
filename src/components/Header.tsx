@@ -1,12 +1,10 @@
-import {AppBar, Button, IconButton, Typography, Toolbar} from '@material-ui/core';
+import {AppBar, IconButton, Typography, Toolbar} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import {makeStyles} from '@material-ui/core/styles';
-import React, {Dispatch, Reducer, useContext} from 'react';
-import {actions, AppContext, AppState} from '../store';
+import React from 'react';
 
 export default function() {
 	const styles = useStyles();
-	const {state, dispatch} = useContext(AppContext);
 	return<AppBar position="static" className={styles.container}>
 			<Toolbar>
 				<IconButton edge="start" className={styles.menuButton} color="inherit" aria-label="menu" onClick={()=>{}}>
@@ -16,7 +14,7 @@ export default function() {
 
 				</Typography>
 				<Typography variant="h6" className={styles.title}>
-					Litentry Demo App
+					Sub Auth Demo App
 				</Typography>
 			</Toolbar>
 		</AppBar>

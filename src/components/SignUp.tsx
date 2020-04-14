@@ -1,4 +1,4 @@
-import {Button, Container, List, ListItem, ListItemIcon, ListItemText, Toolbar, Typography} from '@material-ui/core';
+import {Button, Container} from '@material-ui/core';
 import React, {useContext, useState} from 'react';
 import {actions, AppContext} from '../store';
 import QrReader from 'react-qr-reader';

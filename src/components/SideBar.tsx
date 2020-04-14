@@ -1,6 +1,6 @@
 import {Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, useTheme} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import {ExitToApp, Storage, VpnKey} from '@material-ui/icons';
+import {ExitToApp, VpnKey} from '@material-ui/icons';
 import React, {useContext} from 'react';
 import {drawerWidth} from '../constant';
 import {actions, AppContext} from '../store';
@@ -9,7 +9,7 @@ import Text from './Text';
 export default function SideBar() {
 	const styles = useStyles();
 	const theme = useTheme();
-	const {state, dispatch} = useContext(AppContext);
+	const {dispatch} = useContext(AppContext);
 
 	const listItems = [
 		{
@@ -71,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'space-evenly',
 		drawerWidth: 200,
 		height: '100%',
+		marginLeft: 16,
 		zIndex: 200,
 		backgroundColor: '#f00'
 	},

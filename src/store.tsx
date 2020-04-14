@@ -1,4 +1,4 @@
-import React, {Dispatch, useReducer} from 'react';
+import React, {Dispatch} from 'react';
 import _ from 'lodash';
 
 export const actions = {
