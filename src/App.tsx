@@ -23,7 +23,7 @@ const renderMain = (route:string): React.ReactElement => {
         <Text text="Welcome to the Litentry Playground!" variant="h3"/>
       </Container>
   }
-}
+};
 
 function App() {
   const styles = useStyles();

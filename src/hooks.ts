@@ -2,7 +2,7 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 import {useEffect, useState} from 'react';
 
 // Construct
-const wsProvider = new WsProvider('ws://52.28.235.180:9944/');
+const wsProvider = new WsProvider('wss://ws.litentry.com/');
 const ownerAlice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const testIdentity = '0x53838f9049cd2baa7f81f18962330586ba13d61feb08735f75df4d2bb8518264';
 const token = '0xff1238cdb0e9afdac233cc182faafc1349d4b2c142af161993d6a179fc0cc961';
