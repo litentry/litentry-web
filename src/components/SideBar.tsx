@@ -1,6 +1,6 @@
 import {Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, useTheme} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import {ExitToApp, VpnKey} from '@material-ui/icons';
+import {ExitToApp, Pause, PlayArrow, VpnKey} from '@material-ui/icons';
 import React, {useContext} from 'react';
 import {drawerWidth} from '../constant';
 import {actions, AppContext} from '../store';
@@ -24,6 +24,14 @@ export default function SideBar() {
 		}
 	];
 
+	const appItems = [
+		{
+			icon: <PlayArrow/>,
+			text: 'Music Player',
+			route: 'music',
+		}
+	]
+
 	const drawer = (
 		<div>
 			<div className={styles.toolbar}/>
@@ -41,7 +49,16 @@ export default function SideBar() {
 			</List>
 			<Divider/>
 			<Text text="Web Scenario" variant="h6"/>
-			<Text text="Coming Soon..." variant="h6"/>
+			<List>
+				{appItems.map((item, index) => (
+					<ListItem button key={'SideBarList' + index} onClick={() => {
+						dispatch({type: actions.NAVIGATE, data: item.route})
+					}}>
+						<ListItemIcon>{item.icon}</ListItemIcon>
+						<ListItemText primary={item.text}/>
+					</ListItem>
+				))}
+			</List>
 		</div>
 	);
 

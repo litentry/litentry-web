@@ -4,10 +4,12 @@ import React, {useReducer} from 'react';
 import 'typeface-roboto';
 import Header from './components/Header';
 import Login from './components/Login';
+import Music from './components/Music';
 import SideBar from './components/SideBar';
 import './App.css';
 import SignUp from './components/SignUp';
 import {drawerWidth} from './constant';
+import {useApi} from './hooks';
 import {initState, reducer as storeReducer, StateProvider} from './store';
 import theme from './themes';
 import Text from './components/Text';
@@ -18,6 +20,8 @@ const renderMain = (route:string): React.ReactElement => {
       return <SignUp/>;
     case 'login':
       return <Login/>;
+    case 'music':
+      return <Music/>;
     default:
       return <Container>
         <Text text="Welcome to the Litentry Playground!" variant="h3"/>
@@ -29,9 +33,11 @@ function App() {
   const styles = useStyles();
   const reducer = useReducer(storeReducer, initState);
   const [state, dispatch] = reducer;
+  const isApiReady = useApi();
+
   return (
     <div className={styles.root}>
-      <StateProvider value={{ state, dispatch }}>
+      {isApiReady && <StateProvider value={{ state, dispatch }}>
         <ThemeProvider theme={theme}>
           <Header/>
           <div className={styles.container}>
@@ -39,7 +45,7 @@ function App() {
           </div>
           <SideBar/>
         </ThemeProvider>
-      </StateProvider>
+      </StateProvider>}
     </div>
   );
 }
