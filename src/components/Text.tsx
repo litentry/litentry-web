@@ -8,7 +8,7 @@ export default function Text({variant, text}: {
 	text: string;
 }) {
 	const styles= useStyles();
-	return <Typography variant={variant || 'inherit'} className={styles.font}>
+	return <Typography variant={variant || 'inherit'} className={styles.font} noWrap={true}>
 		{text}
 	</Typography>
 }

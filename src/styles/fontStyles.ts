@@ -3,7 +3,6 @@ import colors from './colors';
 const fontStyles = {
 	a_button: {
 		color: colors.background.app,
-		fontWeight: 'normal',
 		fontSize: 20
 	},
 	a_text: {
@@ -82,7 +81,6 @@ const fontStyles = {
 	t_regular: {
 		color: colors.text.main,
 		fontWeight: 'normal',
-		fontSize: 12
 	},
 	t_seed: {
 		borderColor: colors.background.card,

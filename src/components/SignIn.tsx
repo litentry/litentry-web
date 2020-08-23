@@ -34,8 +34,8 @@ export default function SignIn() {
 		if(data){
 			setIdentity(data);
 			setCurrentIdentity(data);
-			setAlert('Success', `Signed in as ${data}`);
 			navigate('main');
+			setAlert('Success', `Signed in as ${data}`);
 		}
 	};
 

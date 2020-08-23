@@ -1,5 +1,7 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
+import {SubmittableExtrinsicFunction} from '@polkadot/api/types';
 import {useEffect, useState} from 'react';
+import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 // Construct
 const wsProvider = new WsProvider('wss://ws.litentry.com/');
@@ -31,6 +33,7 @@ export function useApi(): boolean {
 						}
 					}
 				});
+				await cryptoWaitReady();
 				setApiReady(true);
 				console.log('rpc endpoints are', api.tx.litentry);
 				console.log('api genesisHash', api.genesisHash.toHex());
@@ -60,4 +63,17 @@ export function useTokenOwner (tokenId: string): string {
 		queryTokenIdentity(tokenId)
 	}, [tokenId]);
 	return owner;
+}
+
+type LitentryExtrinsics = {
+	registerIdentity: SubmittableExtrinsicFunction<'promise'>;
+	issueToken: SubmittableExtrinsicFunction<'promise'>
+};
+
+export function useExtrinsics(): LitentryExtrinsics {
+	console.log('tx is', api.tx.litentry);
+	return {
+		registerIdentity: api.tx.litentry.registerIdentity,
+		issueToken: api.tx.litentry.issueToken,
+	};
 }

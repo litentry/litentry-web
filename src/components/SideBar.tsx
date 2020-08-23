@@ -4,6 +4,7 @@ import {ExitToApp, PlayArrow} from '@material-ui/icons';
 import React, {useContext} from 'react';
 import {drawerWidth} from '../constant';
 import { AppStateContext} from '../stores/appStateContext';
+import zIndexes from '../styles/zIndexes';
 import Text from './Text';
 
 export default function SideBar() {
@@ -84,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
 		drawerWidth: 200,
 		height: '100%',
 		marginLeft: 16,
-		zIndex: 200,
+		zIndex: zIndexes.sideBar,
 		backgroundColor: '#f00'
 	},
 	// necessary for content to be below app bar

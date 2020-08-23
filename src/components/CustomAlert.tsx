@@ -7,6 +7,7 @@ import {
 	Button,
 	Container,
 } from '@material-ui/core';
+import zIndexes from '../styles/zIndexes';
 import Text from './Text';
 
 export default function CustomAlert(): React.ReactElement {
@@ -69,15 +70,20 @@ const useStyles = makeStyles({
 		alignItems: 'center',
 		justifyContent: 'center',
 		position: 'absolute',
-		top: 80,
+		top: 180,
 		width: '100%',
-		zIndex: 100
+		margin: 'auto',
+		zIndex: zIndexes.alert,
+		maxWidth: '100%',
 	},
 	body: {
-		backgroundColor: colors.background.alert,
-		paddingHorizontal: 20,
-		paddingVertical: 20,
-		width: '90%'
+		alignItems: 'center',
+		justifyContent: 'center',
+		boxShadow: '5px 10px 18px #444',
+		backgroundColor: colors.background.app,
+		padding: 30,
+		margin: 'auto',
+		width: '60%'
 	},
 	button: {
 		alignItems: 'center',

@@ -21,6 +21,7 @@ const renderMain = (state: AppStoreState): React.ReactElement => {
 		case 'music':
 			return <Music/>;
 		default:
+			return <Music/>;
 			return <Container>
 				<Text text="Welcome to the Litentry Playground!" variant="h3"/>
 				{currentIdentity && <Text text={`Signed Identity: ${currentIdentity}`}/>}
