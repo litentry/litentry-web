@@ -1,26 +1,21 @@
 import {Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, useTheme} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import {ExitToApp, Pause, PlayArrow, VpnKey} from '@material-ui/icons';
+import {ExitToApp, PlayArrow} from '@material-ui/icons';
 import React, {useContext} from 'react';
 import {drawerWidth} from '../constant';
-import {actions, AppContext} from '../store';
+import { AppStateContext} from '../stores/appStateContext';
 import Text from './Text';
 
 export default function SideBar() {
 	const styles = useStyles();
 	const theme = useTheme();
-	const {dispatch} = useContext(AppContext);
+	const {navigate} = useContext(AppStateContext);
 
 	const listItems = [
 		{
 			icon: <ExitToApp/>,
-			text: 'Login',
+			text: 'Sign In',
 			route: 'login',
-		},
-		{
-			icon: <VpnKey/>,
-			text: 'Sign Up',
-			route: 'signUp',
 		}
 	];
 
@@ -40,7 +35,7 @@ export default function SideBar() {
 			<List>
 				{listItems.map((item, index) => (
 					<ListItem button key={'SideBarList' + index} onClick={() => {
-						dispatch({type: actions.NAVIGATE, data: item.route})
+						navigate(item.route);
 					}}>
 						<ListItemIcon>{item.icon}</ListItemIcon>
 						<ListItemText primary={item.text}/>
@@ -52,7 +47,7 @@ export default function SideBar() {
 			<List>
 				{appItems.map((item, index) => (
 					<ListItem button key={'SideBarList' + index} onClick={() => {
-						dispatch({type: actions.NAVIGATE, data: item.route})
+						navigate(item.route);
 					}}>
 						<ListItemIcon>{item.icon}</ListItemIcon>
 						<ListItemText primary={item.text}/>

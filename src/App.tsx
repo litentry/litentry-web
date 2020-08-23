@@ -1,51 +1,25 @@
-import {Container} from '@material-ui/core';
-import {makeStyles, ThemeProvider} from '@material-ui/core/styles';
-import React, {useReducer} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
+import React from 'react';
 import 'typeface-roboto';
-import Header from './components/Header';
-import Login from './components/Login';
-import Music from './components/Music';
-import SideBar from './components/SideBar';
+import Router from './components/Router';
 import './App.css';
-import SignUp from './components/SignUp';
-import {drawerWidth} from './constant';
 import {useApi} from './hooks';
-import {initState, reducer as storeReducer, StateProvider} from './store';
-import theme from './themes';
-import Text from './components/Text';
-
-const renderMain = (route:string): React.ReactElement => {
-  switch (route) {
-    case 'signUp':
-      return <SignUp/>;
-    case 'login':
-      return <Login/>;
-    case 'music':
-      return <Music/>;
-    default:
-      return <Container>
-        <Text text="Welcome to the Litentry Playground!" variant="h3"/>
-      </Container>
-  }
-};
+import {AppStateContext, useAppContext} from './stores/appStateContext';
+import {AlertStateContext, useAlertContext} from './stores/alertContext';
 
 function App() {
-  const styles = useStyles();
-  const reducer = useReducer(storeReducer, initState);
-  const [state, dispatch] = reducer;
+  const appContext = useAppContext();
   const isApiReady = useApi();
+  const styles = useStyles();
+ const alertContext = useAlertContext();
 
   return (
     <div className={styles.root}>
-      {isApiReady && <StateProvider value={{ state, dispatch }}>
-        <ThemeProvider theme={theme}>
-          <Header/>
-          <div className={styles.container}>
-            {renderMain(state.route)}
-          </div>
-          <SideBar/>
-        </ThemeProvider>
-      </StateProvider>}
+      {isApiReady && <AppStateContext.Provider value={appContext}>
+        <AlertStateContext.Provider value={alertContext}>
+        <Router/>
+        </AlertStateContext.Provider>
+      </AppStateContext.Provider>}
     </div>
   );
 }
@@ -55,10 +29,6 @@ const useStyles = makeStyles({
     flexGrow: 1,
     height: '100%',
     backgroundColor: '#424242'
-  },
-  container: {
-    flexGrow: 1,
-    marginLeft: drawerWidth,
   }
 });
 
