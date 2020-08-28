@@ -1,7 +1,7 @@
 export default {
 	background: {
-		alert: '#444444',
-		app: '#151515',
+		alert: '#242424',
+		app: '#424242',
 		button: 'C0C0C0',
 		card: '#262626',
 		os: '#000000'

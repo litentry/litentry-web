@@ -80,7 +80,7 @@ const useStyles = makeStyles({
 		alignItems: 'center',
 		justifyContent: 'center',
 		boxShadow: '5px 10px 18px #444',
-		backgroundColor: colors.background.app,
+		backgroundColor: colors.background.alert,
 		padding: 30,
 		margin: 'auto',
 		width: '60%'

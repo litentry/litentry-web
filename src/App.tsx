@@ -12,7 +12,7 @@ function App() {
   const appContext = useAppContext();
   const isApiReady = useApi();
   const styles = useStyles();
- const alertContext = useAlertContext();
+  const alertContext = useAlertContext();
 
   return (
     <div className={styles.root}>

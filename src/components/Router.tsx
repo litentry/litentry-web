@@ -5,6 +5,7 @@ import {drawerWidth} from '../constant';
 import {AppStateContext, AppStoreState} from '../stores/appStateContext';
 import theme from '../themes';
 import Header from './Header';
+import {PlaceHolder} from './PlaceHolder';
 import SignIn from './SignIn';
 import Music from './Music';
 import SideBar from './SideBar';
@@ -21,10 +22,10 @@ const renderMain = (state: AppStoreState): React.ReactElement => {
 		case 'music':
 			return <Music/>;
 		default:
-			return <Music/>;
 			return <Container>
-				<Text text="Welcome to the Litentry Playground!" variant="h3"/>
-				{currentIdentity && <Text text={`Signed Identity: ${currentIdentity}`}/>}
+				<PlaceHolder text="Welcome to the Litentry Playground!" variant="h3"/>
+				{currentIdentity ? <PlaceHolder text={`Signed Identity: ${currentIdentity}`} variant="h5"/>
+				: 		<PlaceHolder text="Please sign in first" variant="h3"/>}
 			</Container>
 	}
 };

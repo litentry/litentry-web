@@ -1,22 +1,40 @@
 import {Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, useTheme} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import {ExitToApp, PlayArrow} from '@material-ui/icons';
+import {ExitToApp, PlayArrow, VpnKey} from '@material-ui/icons';
 import React, {useContext} from 'react';
 import {drawerWidth} from '../constant';
 import { AppStateContext} from '../stores/appStateContext';
 import zIndexes from '../styles/zIndexes';
 import Text from './Text';
 
+type ListItem = {
+	icon: React.ReactElement;
+	text: string;
+	route: (() => void)| string;
+	isShow: boolean;
+}
+
 export default function SideBar() {
 	const styles = useStyles();
 	const theme = useTheme();
-	const {navigate} = useContext(AppStateContext);
+	const {navigate, state, setCurrentIdentity} = useContext(AppStateContext);
+	const {currentIdentity} = state;
+	const isLoggedIn = !!currentIdentity && currentIdentity !== '';
 
-	const listItems = [
+	const listItems: ListItem[] = [
 		{
-			icon: <ExitToApp/>,
+			icon: <VpnKey/>,
 			text: 'Sign In',
 			route: 'login',
+			isShow: !isLoggedIn
+		},
+		{
+			icon: <ExitToApp/>,
+			text: 'Sign Out',
+			isShow: isLoggedIn,
+			route: (): void => {
+				setCurrentIdentity('');
+			}
 		}
 	];
 
@@ -28,20 +46,28 @@ export default function SideBar() {
 		}
 	]
 
+	function renderListItem (item: ListItem, index: number): null| React.ReactElement {
+		if(!item.isShow)
+			return null;
+		return <ListItem button key={'SideBarList' + index} onClick={() => {
+			if(typeof item.route === 'string') {
+				navigate(item.route);
+			} else {
+				item.route();
+			}
+		}}>
+			<ListItemIcon>{item.icon}</ListItemIcon>
+			<ListItemText primary={item.text}/>
+		</ListItem>
+	};
+
 	const drawer = (
 		<div>
 			<div className={styles.toolbar}/>
 			<Divider/>
 			<Text text="IoT Scenario" variant="h6"/>
 			<List>
-				{listItems.map((item, index) => (
-					<ListItem button key={'SideBarList' + index} onClick={() => {
-						navigate(item.route);
-					}}>
-						<ListItemIcon>{item.icon}</ListItemIcon>
-						<ListItemText primary={item.text}/>
-					</ListItem>
-				))}
+				{listItems.map(renderListItem)}
 			</List>
 			<Divider/>
 			<Text text="Web Scenario" variant="h6"/>

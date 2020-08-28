@@ -2,13 +2,17 @@ import {
 	Button,
 	Container,
 } from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
 import React, {useContext, useEffect, useState} from 'react';
 import QrReader from 'react-qr-reader';
 import {useTokenOwner} from '../hooks';
-import {AlertStateContext, useAlertContext} from '../stores/alertContext';
+import {AlertStateContext} from '../stores/alertContext';
 import {AppStateContext} from '../stores/appStateContext';
 import Alert from './Alert';
+import {PlaceHolder} from './PlaceHolder';
 import Text from './Text';
+
+const  validateSignInQR = (data: string | null): boolean => data !== null && data.split(':')[0] === 'address';
 
 export default function SignIn() {
 	const {state, setCurrentIdentity, navigate} = useContext(AppStateContext);
@@ -17,39 +21,42 @@ export default function SignIn() {
 	const [alertOpen, setAlertOpen] = useState<boolean>(false);
 	const tokenOwner = useTokenOwner(identity);
 	const {setAlert} = useContext(AlertStateContext);
+	const { currentIdentity} = state;
 
 	useEffect(()=> {
-		console.log('token owner', tokenOwner, 'currentIdentity:' , state.currentIdentity, 'token : ', identity);
-		if(state.currentIdentity !== null && tokenOwner !== ''){
-			if(tokenOwner === state.currentIdentity) {
+		console.log('token owner', tokenOwner, 'currentIdentity:' , currentIdentity, 'token : ', identity);
+		if(currentIdentity !== null && tokenOwner !== ''){
+			if(tokenOwner === currentIdentity) {
 				setScannerOpen(false);
 				setAlertOpen(true);
 			}
 		}
-	}, [tokenOwner, state.currentIdentity, identity]);
+	}, [tokenOwner, currentIdentity, identity]);
 
 	const handleError = ():void => {};
 	const handleScan = (data: string | null) => {
 		console.log('data is,' , data);
-		if(data){
-			setIdentity(data);
-			setCurrentIdentity(data);
+		if(validateSignInQR(data)){
+			const identityHash = (data as string).split(':')[1];
+			setIdentity(identityHash);
+			setCurrentIdentity(identityHash);
 			navigate('main');
-			setAlert('Success', `Signed in as ${data}`);
+			setAlert('Success', `Signed in as ${identityHash}`);
 		}
 	};
 
 	return <Container>
-		<Text text="Sign in" variant="h3"/>
+		<PlaceHolder text="Sign In" variant="h3"/>
+
 		{scannerOpen ?
-			state.currentIdentity === null ?
-				<QrReader
-					delay={300}
-					onError={handleError}
-					onScan={handleScan}
-					style={{maxWidth: 300}}
-				/> :
-				<Text text={"You have already Signed in, Please Sign out first"} variant="h4"/>
+			!currentIdentity || currentIdentity === '' ?
+					<QrReader
+						delay={300}
+						onError={handleError}
+						onScan={handleScan}
+						style={{maxWidth: 500, margin: 'auto'}}
+					/>:
+				<PlaceHolder text={"You have already Signed in, Please Sign out first"} variant="h4"/>
 			:
 			<Button variant="contained" onClick={()=>setScannerOpen(true)}>
 				Scan Login Token Again

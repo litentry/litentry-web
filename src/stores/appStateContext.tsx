@@ -12,7 +12,7 @@ export const initialState = {
 	route: 'main',
 	drawerOpen: false,
 	identities: [],
-	currentIdentity: '0xde9f58e218c4ee859d0aa4ee92bd8d1724ac2ce599aef3c9540b00418f41daec',
+	currentIdentity: '',
 };
 
 export interface AppContext {

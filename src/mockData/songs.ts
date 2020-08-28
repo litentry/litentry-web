@@ -31,78 +31,78 @@ export const songs: Record<string, Song[]> = {
 		stared: false
 	}],
 	country: [{
-		name: 'Dynamite',
-		singer: 'BTS',
+		name: 'New Normal',
+		singer: 'Cooper Alan',
 		stared: false
 	},{
-		name: 'Watermelon Sugar',
-		singer: 'Harry Styles',
+		name: 'Starting Over',
+		singer: 'Chris Stapleton',
 		stared: false
 	},{
-		name: 'Savage Love',
-		singer: 'Jawsh 685 x Jason Derulo',
+		name: 'Got What I Got',
+		singer: 'Jason Aldean',
 		stared: false
 	},{
-		name: 'Midnight Sky',
-		singer: 'Miley Cyrus',
+		name: 'I Hope (feat. Charlie Puth)',
+		singer: 'Gabby Barrett',
 		stared: false
 	},{
-		name: 'Be Like That',
-		singer: 'Kane Brown, Swae Lee, Khalid',
+		name: 'One of Them Girls',
+		singer: 'Lee Brice',
 		stared: false
 	},{
-		name: 'Rain On Me',
-		singer: 'Lady Gaga & Ariana Grande',
+		name: 'Happy Anywhere',
+		singer: 'Blake Shelton',
 		stared: false
 	}],
 	electronic: [{
-		name: 'Dynamite',
-		singer: 'BTS',
+		name: 'Mirror',
+		singer: 'Porter Robinson',
 		stared: false
 	},{
-		name: 'Watermelon Sugar',
-		singer: 'Harry Styles',
+		name: 'Sunset Lover',
+		singer: 'Petit Biscuit',
 		stared: false
 	},{
-		name: 'Savage Love',
-		singer: 'Jawsh 685 x Jason Derulo',
+		name: 'Tick Tock',
+		singer: 'Clean Bandit & Mabel',
 		stared: false
 	},{
-		name: 'Midnight Sky',
-		singer: 'Miley Cyrus',
+		name: 'Latch',
+		singer: 'Disclosure',
 		stared: false
 	},{
-		name: 'Be Like That',
-		singer: 'Kane Brown, Swae Lee, Khalid',
+		name: 'Get You the Moon',
+		singer: 'Kina',
 		stared: false
 	},{
-		name: 'Rain On Me',
-		singer: 'Lady Gaga & Ariana Grande',
+		name: 'Flower',
+		singer: 'Moby',
 		stared: false
 	}],
 	rock: [{
-		name: 'Dynamite',
-		singer: 'BTS',
+		name: 'Snowblood',
+		singer: 'ERRA',
 		stared: false
 	},{
-		name: 'Watermelon Sugar',
-		singer: 'Harry Styles',
+		name: 'A Little Bit Off',
+		singer: 'Five Finger Death Punch',
 		stared: false
 	},{
-		name: 'Savage Love',
-		singer: 'Jawsh 685 x Jason Derulo',
+		name: 'Enter Sandman',
+		singer: 'Metallica',
 		stared: false
 	},{
-		name: 'Midnight Sky',
-		singer: 'Miley Cyrus',
+		name: 'In the Air Tonight',
+		singer: 'Phil Collins',
 		stared: false
 	},{
-		name: 'Be Like That',
-		singer: 'Kane Brown, Swae Lee, Khalid',
+		name: 'Wolf Totem',
+		singer: 'The Hu',
 		stared: false
 	},{
-		name: 'Rain On Me',
-		singer: 'Lady Gaga & Ariana Grande',
+		name: 'Popular Monster',
+		singer: 'Falling In Reverse',
 		stared: false
 	}],
 }
