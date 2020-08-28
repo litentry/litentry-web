@@ -45,6 +45,7 @@ export function Blog({currentIdentity}: PropsWithCurrentIdentity): React.ReactEl
 	return <Container>
 		<Container className={classes.pageTitle}>
 			<Text text="dTwitter" variant="h3"/>
+			<Text wrap text="each twitter will generate data token on blockchain (check Litentry Authenticator), and twitter content is recorded on IPFS (check data center)" variant="subtitle1"/>
 		</Container>
 		{ipfsData.map(renderRecord)}
 

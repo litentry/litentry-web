@@ -93,7 +93,7 @@ export function Music ({currentIdentity}: PropsWithCurrentIdentity){
 	return <Container>
 		<Container className={classes.pageTitle}>
 			<Text text="dSpotify Music Player" variant="h3"/>
-			<Text text="All the play and star record will be record, an click generate data token on blockchain (check Litentry Authenticator), and data record on IPFS (check data center)" variant="subtitle1"/>
+			<Text wrap text="All the play and star record will be record, an click generate data token on blockchain (check Litentry Authenticator), and data record on IPFS (check data center)" variant="subtitle1"/>
 		</Container>
 		<Grid container spacing={2}>
 			{Object.entries(songs).map(renderList)}

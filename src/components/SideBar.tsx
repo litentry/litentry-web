@@ -51,6 +51,25 @@ export default function SideBar() {
 		}
 	]
 
+	const relatedLinks = [
+		{
+			text: 'Guide',
+			link: 'https://www.litentry.com/blog'
+		},
+		{
+			text: 'Litentry Data Center',
+			link: 'https://data.litentry.com/'
+		},
+		{
+			text: 'Litentry Authenticator',
+			link: 'https://www.litentry.com/wallet'
+		},
+		{
+			text: 'Litentry Graphql',
+			link: 'http://52.28.235.180:4000/playground'
+		}
+	]
+
 	function renderListItem (item: ListItem, index: number): null| React.ReactElement {
 		if(!item.isShow)
 			return null;
@@ -82,10 +101,23 @@ export default function SideBar() {
 			</div>
 			<List>
 				{appItems.map((item, index) => (
-					<ListItem button key={'SideBarList' + index} onClick={() => {
+					<ListItem button key={'SideBarAppList' + index} onClick={() => {
 						navigate(item.route);
 					}}>
 						<ListItemIcon>{item.icon}</ListItemIcon>
+						<ListItemText primary={item.text}/>
+					</ListItem>
+				))}
+			</List>
+			<Divider/>
+			<div className={styles.listTitle}>
+				<Text text="Links" variant="h6"/>
+			</div>
+			<List>
+				{relatedLinks.map((item, index) => (
+					<ListItem button key={'SideBarLinkList' + index} onClick={() => {
+						window.open(item.link)
+					}}>
 						<ListItemText primary={item.text}/>
 					</ListItem>
 				))}
