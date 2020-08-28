@@ -1,11 +1,9 @@
 import {Button, Container} from '@material-ui/core';
-import React, {useContext, useState} from 'react';
-import {AppStateContext} from '../stores/appStateContext';
+import React, { useState } from 'react';
 import QrReader from 'react-qr-reader';
 import Text from './Text';
 
 export default function SignUp() {
-	const {state} = useContext(AppStateContext);
 	const [scannerOpen, setScannerOpen] = useState<boolean>(true);
 
 	const handleError = ():void => {};
@@ -15,7 +13,6 @@ export default function SignUp() {
 			setScannerOpen(false);
 		}
 	};
-
 
 	return <Container>
 		<Text variant="h3" text='Sign Up'/>

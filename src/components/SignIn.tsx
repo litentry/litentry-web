@@ -2,7 +2,6 @@ import {
 	Button,
 	Container,
 } from '@material-ui/core';
-import {makeStyles} from '@material-ui/core/styles';
 import React, {useContext, useEffect, useState} from 'react';
 import QrReader from 'react-qr-reader';
 import {useTokenOwner} from '../hooks';
@@ -10,7 +9,6 @@ import {AlertStateContext} from '../stores/alertContext';
 import {AppStateContext} from '../stores/appStateContext';
 import Alert from './Alert';
 import {PlaceHolder} from './PlaceHolder';
-import Text from './Text';
 
 const  validateSignInQR = (data: string | null): boolean => data !== null && data.split(':')[0] === 'address';
 

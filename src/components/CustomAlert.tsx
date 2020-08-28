@@ -1,6 +1,6 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {useContext, useEffect, useMemo, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import colors from '../styles/colors';
 import {Action, AlertStateContext} from '../stores/alertContext';
 import {

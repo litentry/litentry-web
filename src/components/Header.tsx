@@ -14,7 +14,7 @@ export default function() {
 
 				</Typography>
 				<Typography variant="h6" className={styles.title}>
-					Sub Auth Demo App
+					Litentry Playground App
 				</Typography>
 			</Toolbar>
 		</AppBar>

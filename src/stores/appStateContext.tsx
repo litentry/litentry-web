@@ -1,5 +1,4 @@
 import React, {useReducer} from 'react';
-import _ from 'lodash';
 
 export interface AppStoreState {
 	route: string;
