@@ -2,7 +2,7 @@ import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {useContext, useEffect, useState} from 'react';
 import colors from '../styles/colors';
-import {Action, AlertStateContext} from '../stores/alertContext';
+import {AlertAction, AlertStateContext} from '../stores/alertContext';
 import {
 	Button,
 	Container,
@@ -25,7 +25,7 @@ export default function CustomAlert(): React.ReactElement {
 		/* eslint-disable-next-line react-hooks/exhaustive-deps */
 	}, [alertIndex]);
 
-	const renderActions = (action: Action, index: number): React.ReactElement => (
+	const renderActions = (action: AlertAction, index: number): React.ReactElement => (
 		<Button
 			key={'alert' + index}
 			onClick={(): any => {

@@ -9,6 +9,7 @@ import {
 import {makeStyles} from '@material-ui/core/styles';
 import {PlayArrow, Star, StarBorder} from '@material-ui/icons';
 import React, {MouseEvent, useContext, useState} from 'react';
+import {logError} from '../alertUtils';
 import {PropsWithCurrentIdentity, withCurrentIdentity} from '../HOC';
 import {issueTokenHelper, useExtrinsics} from '../hooks';
 import {constructDataInsertion, useGetIpfsData} from '../ipfsUtils';
@@ -25,14 +26,6 @@ export function Music ({currentIdentity}: PropsWithCurrentIdentity){
 	const [updateIndex, setUpdateIndex] = useState(0);
 	const ipfsData = useGetIpfsData(currentIdentity, 'star', updateIndex);
 
-	function logError(e: any): void {
-		console.log('e is', e.toString());
-		setAlert(
-			'Transaction Failed',
-			'Please check if the account has enough token, or use Polkadot.js default account like Alice to send some tokens to this account'
-		);
-	}
-
 	function logTransactionSuccess(): void {
 		setAlert(
 			'Success',
@@ -41,33 +34,29 @@ export function Music ({currentIdentity}: PropsWithCurrentIdentity){
 	}
 
 	async function issueTokenAndPublishIpfs(item: Song, insertData: string){
-		const refreshTimeout = 2000;
-		await issueTokenHelper(currentIdentity, insertData, issueToken, logTransactionSuccess);
-		fetch(constructDataInsertion(currentIdentity, insertData))
-		setTimeout(()=>{
-			setUpdateIndex(updateIndex+1);
-		}, refreshTimeout)
+		try {
+			const refreshTimeout = 2000;
+			await issueTokenHelper(currentIdentity, insertData, issueToken, logTransactionSuccess);
+			fetch(constructDataInsertion(currentIdentity, insertData))
+			setTimeout(() => {
+				setUpdateIndex(updateIndex + 1);
+			}, refreshTimeout)
+		} catch (e) {
+			logError(e, setAlert);
+		}
 	}
 
 	const capitalize = (origin: string): string => origin.charAt(0).toUpperCase() + origin.slice(1);
 
 	function renderListItem (item: Song, index: number): React.ReactElement {
 		const onStarItem = async (event: MouseEvent<HTMLDivElement>): Promise<void> => {
-			try {
-				await issueTokenAndPublishIpfs(item, 'star:' + item.name)
-			} catch (e){
-				logError(e);
-			}
+			await issueTokenAndPublishIpfs(item, 'star:' + item.name)
 		}
 
 		const stared = ipfsData.indexOf(item.name)!== -1;
 
 		const onPlayItem = async (event: MouseEvent<HTMLDivElement>): Promise<void> => {
-			try {
-				await issueTokenAndPublishIpfs(item, 'play:' + item.name)
-			} catch (e){
-				logError(e);
-			}
+			await issueTokenAndPublishIpfs(item, 'play:' + item.name)
 		}
 
 		return <ListItem key={index} role={undefined} dense>
@@ -104,6 +93,7 @@ export function Music ({currentIdentity}: PropsWithCurrentIdentity){
 	return <Container>
 		<Container className={classes.pageTitle}>
 			<Text text="dSpotify Music Player" variant="h3"/>
+			<Text text="All the play and star record will be record, an click generate data token on blockchain (check Litentry Authenticator), and data record on IPFS (check data center)" variant="subtitle1"/>
 		</Container>
 		<Grid container spacing={2}>
 			{Object.entries(songs).map(renderList)}

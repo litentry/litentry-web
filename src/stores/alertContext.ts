@@ -4,15 +4,15 @@ import { useState } from 'react';
 export type SetAlert = (
 	title: string,
 	message: string,
-	actions?: Action[]
+	actions?: AlertAction[]
 ) => void;
-export type Action = {
+export type AlertAction = {
 	text: string;
 	testID?: string;
 	onPress?: () => any;
 };
 export type AlertState = {
-	actions: Action[];
+	actions: AlertAction[];
 	alertIndex: number;
 	title: string;
 	message: string;
@@ -29,7 +29,7 @@ export const defaultAlertState: AlertState = {
 
 export function useAlertContext(): AlertState {
 	const [alertState, setAlertState] = useState<{
-		actions: Action[];
+		actions: AlertAction[];
 		alertIndex: number;
 		title: string;
 		message: string;

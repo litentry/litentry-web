@@ -1,9 +1,11 @@
 import {Button, Container, FormControl, Paper, TextField} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
+import {logError} from '../alertUtils';
 import {PropsWithCurrentIdentity, withCurrentIdentity} from '../HOC';
 import {issueTokenHelper, useExtrinsics} from '../hooks';
 import {constructDataInsertion, useGetIpfsData} from '../ipfsUtils';
+import {AlertStateContext} from '../stores/alertContext';
 import colors from '../styles/colors';
 import {commonStyles} from '../styles/common';
 import Text from './Text';
@@ -15,18 +17,23 @@ export function Blog({currentIdentity}: PropsWithCurrentIdentity): React.ReactEl
 	const classes = useStyles();
 	const [currentBlogText, setCurrentBlogText] = useState<string>('');
 	const refreshTimeout = 2000;
+	const {setAlert} = useContext(AlertStateContext);
 
 	function onTextInputChange(event: React.ChangeEvent<HTMLInputElement>){
 		setCurrentBlogText(event.target.value);
 	}
 
 	async function publishBlog(){
-		await issueTokenHelper(currentIdentity, currentBlogText, issueToken);
-		await fetch(constructDataInsertion(currentIdentity,`write:${currentBlogText}`));
-		setCurrentBlogText('');
-		setTimeout(()=>{
-			setUpdateIndex(updateIndex+1);
-		}, refreshTimeout);
+		try {
+			await issueTokenHelper(currentIdentity, currentBlogText, issueToken);
+			await fetch(constructDataInsertion(currentIdentity, `write:${currentBlogText}`));
+			setCurrentBlogText('');
+			setTimeout(() => {
+				setUpdateIndex(updateIndex + 1);
+			}, refreshTimeout);
+		} catch (e){
+			logError(e, setAlert);
+		}
 	}
 
 	const renderRecord = ( record: string, index: number): React.ReactElement => (
@@ -46,6 +53,7 @@ export function Blog({currentIdentity}: PropsWithCurrentIdentity): React.ReactEl
 			<TextField
 				id="outlined-multiline-flexible"
 				label="Write something down!"
+				InputLabelProps={{color: 'secondary'}}
 				multiline
 				rowsMax={20}
 				value={currentBlogText}
