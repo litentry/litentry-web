@@ -89,15 +89,12 @@ export default function SideBar() {
 		<div>
 			<div className={styles.toolbar}/>
 			<Divider/>
-			<div className={styles.listTitle}>
-				<Text text="IoT Scenario" variant="h6"/>
-			</div>
 			<List>
 				{listItems.map(renderListItem)}
 			</List>
 			<Divider/>
 			<div className={styles.listTitle}>
-				<Text text="Web Scenario" variant="h6"/>
+				<Text text="Web Apps" variant="h6"/>
 			</div>
 			<List>
 				{appItems.map((item, index) => (
@@ -113,6 +110,7 @@ export default function SideBar() {
 			<div className={styles.listTitle}>
 				<Text text="Links" variant="h6"/>
 			</div>
+			<Divider/>
 			<List>
 				{relatedLinks.map((item, index) => (
 					<ListItem button key={'SideBarLinkList' + index} onClick={() => {
