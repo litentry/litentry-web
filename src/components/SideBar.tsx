@@ -1,6 +1,6 @@
 import {Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, useTheme} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
-import {ExitToApp, PlayArrow, VpnKey} from '@material-ui/icons';
+import {Create, ExitToApp, PlayArrow, VpnKey} from '@material-ui/icons';
 import React, {useContext} from 'react';
 import {drawerWidth} from '../constant';
 import { AppStateContext} from '../stores/appStateContext';
@@ -43,6 +43,11 @@ export default function SideBar() {
 			icon: <PlayArrow/>,
 			text: 'Music Player',
 			route: 'music',
+		},
+		{
+			icon: <Create/>,
+			text: 'Twitter App',
+			route: 'blog',
 		}
 	]
 
@@ -65,12 +70,16 @@ export default function SideBar() {
 		<div>
 			<div className={styles.toolbar}/>
 			<Divider/>
-			<Text text="IoT Scenario" variant="h6"/>
+			<div className={styles.listTitle}>
+				<Text text="IoT Scenario" variant="h6"/>
+			</div>
 			<List>
 				{listItems.map(renderListItem)}
 			</List>
 			<Divider/>
-			<Text text="Web Scenario" variant="h6"/>
+			<div className={styles.listTitle}>
+				<Text text="Web Scenario" variant="h6"/>
+			</div>
 			<List>
 				{appItems.map((item, index) => (
 					<ListItem button key={'SideBarList' + index} onClick={() => {
@@ -115,6 +124,10 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: '#f00'
 	},
 	// necessary for content to be below app bar
+	listTitle: {
+		paddingLeft: 16,
+		paddingTop: 10
+	},
 	toolbar: theme.mixins.toolbar,
 	drawer: {
 		[theme.breakpoints.up('sm')]: {

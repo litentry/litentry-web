@@ -1,6 +1,6 @@
 import {
 	Container,
-	Grid, List,
+	Grid, IconButton, List,
 	ListItem,
 	ListItemIcon, ListItemSecondaryAction,
 	ListItemText,
@@ -10,15 +10,16 @@ import {makeStyles} from '@material-ui/core/styles';
 import {PlayArrow, Star, StarBorder} from '@material-ui/icons';
 import React, {MouseEvent, useContext} from 'react';
 import {PropsWithCurrentIdentity, withCurrentIdentity} from '../HOC';
-import {useExtrinsics} from '../hooks';
+import {issueTokenHelper, useExtrinsics} from '../hooks';
 import {constructDataInsertion} from '../ipfsUtils';
 import {musicAccountIdentity, musicAccountSeedPhrase} from '../mockData/accounts';
 import {Song, songs} from '../mockData/songs';
 import {AlertStateContext} from '../stores/alertContext';
 import colors from '../styles/colors';
+import {commonStyles} from '../styles/common';
 import Text from './Text';
 import { Keyring } from '@polkadot/api';
-const encoder = new TextEncoder();
+
 
 export function Music ({currentIdentity}: PropsWithCurrentIdentity){
 	const classes = useStyles();
@@ -34,30 +35,7 @@ export function Music ({currentIdentity}: PropsWithCurrentIdentity){
 	}
 
 	async function issueTokenAndPublishIpfs(item: Song, insertData: string){
-		const keyring = new Keyring({ type: 'sr25519' });
-		const newPair = keyring.addFromUri(musicAccountSeedPhrase);
-		console.log('paris is', keyring.pairs);
-		const unsub = await issueToken(
-			currentIdentity,
-			musicAccountIdentity,
-			1,
-			encoder.encode(insertData),
-			encoder.encode('name'),
-			0
-		).signAndSend(newPair, result => {
-			console.log('Current result is', result);
-			console.log('Current result status is', result.status);
-			if (result.status.isInBlock) {
-				console.log(
-					`Transaction included at blockHash ${result.status.asInBlock}`
-				);
-			} else if (result.status.isFinalized) {
-				console.log(
-					`Transaction finalized at blockHash ${result.status.asFinalized}`
-				);
-				unsub();
-			}
-		});
+		await issueTokenHelper(currentIdentity, insertData, issueToken);
 		fetch(constructDataInsertion(currentIdentity, insertData))
 	}
 
@@ -65,7 +43,7 @@ export function Music ({currentIdentity}: PropsWithCurrentIdentity){
 	function renderListItem (item: Song, index: number): React.ReactElement {
 		const onStarItem = async (event: MouseEvent<HTMLDivElement>): Promise<void> => {
 			try {
-				await issueTokenAndPublishIpfs(item, 'start song:' + item.name)
+				await issueTokenAndPublishIpfs(item, 'star:' + item.name)
 			} catch (e){
 				logError(e);
 			}
@@ -73,7 +51,7 @@ export function Music ({currentIdentity}: PropsWithCurrentIdentity){
 
 		const onPlayItem = async (event: MouseEvent<HTMLDivElement>): Promise<void> => {
 			try {
-				await issueTokenAndPublishIpfs(item, 'play song:' + item.name)
+				await issueTokenAndPublishIpfs(item, 'play:' + item.name)
 			} catch (e){
 				logError(e);
 			}
@@ -81,7 +59,9 @@ export function Music ({currentIdentity}: PropsWithCurrentIdentity){
 
 		return <ListItem key={index} role={undefined} dense>
 			<ListItemIcon onClick={onPlayItem}>
-				<PlayArrow/>
+				<IconButton>
+					<PlayArrow/>
+				</IconButton>
 			</ListItemIcon>
 			<ListItemText id={index.toString()} primary={item.name} className={classes.name}
 										primaryTypographyProps={{variant: 'subtitle1'}}
@@ -89,7 +69,9 @@ export function Music ({currentIdentity}: PropsWithCurrentIdentity){
 				secondary={item.singer}/>
 			<ListItemSecondaryAction onClick={onStarItem}>
 				<ListItemIcon>
+					<IconButton>
 					{ item.stared ? <Star/> : <StarBorder/>}
+					</IconButton>
 				</ListItemIcon>
 			</ListItemSecondaryAction>
 		</ListItem>
@@ -107,7 +89,9 @@ export function Music ({currentIdentity}: PropsWithCurrentIdentity){
 	}
 
 	return <Container>
-		<Text text="dSpotify Music Player" variant="h3"/>
+		<Container className={classes.pageTitle}>
+			<Text text="dSpotify Music Player" variant="h3"/>
+		</Container>
 		<Grid container spacing={2}>
 			{Object.entries(songs).map(renderList)}
 		</Grid>
@@ -128,5 +112,6 @@ const useStyles = makeStyles({
 	},
 	singer: {
 		color: colors.text.faded,
-	}
+	},
+	...commonStyles
 })

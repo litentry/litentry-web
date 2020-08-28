@@ -4,13 +4,13 @@ import React, {useContext} from 'react';
 import {drawerWidth} from '../constant';
 import {AppStateContext, AppStoreState} from '../stores/appStateContext';
 import theme from '../themes';
+import Blog from './Blog';
 import Header from './Header';
 import {PlaceHolder} from './PlaceHolder';
 import SignIn from './SignIn';
 import Music from './Music';
 import SideBar from './SideBar';
 import SignUp from './SignUp';
-import Text from './Text';
 
 const renderMain = (state: AppStoreState): React.ReactElement => {
 	const { route, currentIdentity } = state;
@@ -21,6 +21,8 @@ const renderMain = (state: AppStoreState): React.ReactElement => {
 			return <SignIn/>;
 		case 'music':
 			return <Music/>;
+		case 'blog':
+			return <Blog/>
 		default:
 			return <Container>
 				<PlaceHolder text="Welcome to the Litentry Playground!" variant="h3"/>

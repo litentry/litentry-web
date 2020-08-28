@@ -1,14 +1,13 @@
-import { ApiPromise, WsProvider } from '@polkadot/api';
+import { ApiPromise, WsProvider, Keyring } from '@polkadot/api';
 import {SubmittableExtrinsicFunction} from '@polkadot/api/types';
 import {useEffect, useState} from 'react';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
+import {musicAccountIdentity, musicAccountSeedPhrase} from './mockData/accounts';
 
 // Construct
 const wsProvider = new WsProvider('wss://ws.litentry.com/');
-// const ownerAlice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
-// const testIdentity = '0x53838f9049cd2baa7f81f18962330586ba13d61feb08735f75df4d2bb8518264';
-// const token = '0xff1238cdb0e9afdac233cc182faafc1349d4b2c142af161993d6a179fc0cc961';
 let api: ApiPromise;
+const encoder = new TextEncoder();
 
 export function useApi(): boolean {
 	const [isApiReady, setApiReady] = useState(false);
@@ -71,9 +70,35 @@ type LitentryExtrinsics = {
 };
 
 export function useExtrinsics(): LitentryExtrinsics {
-	console.log('tx is', api.tx.litentry);
 	return {
 		registerIdentity: api.tx.litentry.registerIdentity,
 		issueToken: api.tx.litentry.issueToken,
 	};
+}
+
+export async function issueTokenHelper(currentIdentity: string, insertData: string, issueTokenPromise:  SubmittableExtrinsicFunction<'promise'>): Promise<void>{
+	const keyring = new Keyring({ type: 'sr25519' });
+	const newPair = keyring.addFromUri(musicAccountSeedPhrase);
+	console.log('paris is', keyring.pairs);
+	const unsub = await issueTokenPromise(
+		currentIdentity,
+		musicAccountIdentity,
+		1,
+		encoder.encode(insertData),
+		encoder.encode('type'),
+		0
+	).signAndSend(newPair, result => {
+		console.log('Current result is', result);
+		console.log('Current result status is', result.status);
+		if (result.status.isInBlock) {
+			console.log(
+				`Transaction included at blockHash ${result.status.asInBlock}`
+			);
+		} else if (result.status.isFinalized) {
+			console.log(
+				`Transaction finalized at blockHash ${result.status.asFinalized}`
+			);
+			unsub();
+		}
+	});
 }
