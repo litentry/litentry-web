@@ -76,7 +76,7 @@ export function useExtrinsics(): LitentryExtrinsics {
 	};
 }
 
-export async function issueTokenHelper(currentIdentity: string, insertData: string, issueTokenPromise:  SubmittableExtrinsicFunction<'promise'>): Promise<void>{
+export async function issueTokenHelper(currentIdentity: string, insertData: string, issueTokenPromise:  SubmittableExtrinsicFunction<'promise'>, callback?: ()=> void): Promise<void>{
 	const keyring = new Keyring({ type: 'sr25519' });
 	const newPair = keyring.addFromUri(musicAccountSeedPhrase);
 	console.log('paris is', keyring.pairs);
@@ -94,6 +94,8 @@ export async function issueTokenHelper(currentIdentity: string, insertData: stri
 			console.log(
 				`Transaction included at blockHash ${result.status.asInBlock}`
 			);
+			if(callback)
+				callback();
 		} else if (result.status.isFinalized) {
 			console.log(
 				`Transaction finalized at blockHash ${result.status.asFinalized}`

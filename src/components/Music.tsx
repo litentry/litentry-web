@@ -8,23 +8,22 @@ import {
 } from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import {PlayArrow, Star, StarBorder} from '@material-ui/icons';
-import React, {MouseEvent, useContext} from 'react';
+import React, {MouseEvent, useContext, useState} from 'react';
 import {PropsWithCurrentIdentity, withCurrentIdentity} from '../HOC';
 import {issueTokenHelper, useExtrinsics} from '../hooks';
-import {constructDataInsertion} from '../ipfsUtils';
-import {musicAccountIdentity, musicAccountSeedPhrase} from '../mockData/accounts';
+import {constructDataInsertion, useGetIpfsData} from '../ipfsUtils';
 import {Song, songs} from '../mockData/songs';
 import {AlertStateContext} from '../stores/alertContext';
 import colors from '../styles/colors';
 import {commonStyles} from '../styles/common';
 import Text from './Text';
-import { Keyring } from '@polkadot/api';
-
 
 export function Music ({currentIdentity}: PropsWithCurrentIdentity){
 	const classes = useStyles();
 	const {issueToken} = useExtrinsics();
 	const {setAlert} = useContext(AlertStateContext);
+	const [updateIndex, setUpdateIndex] = useState(0);
+	const ipfsData = useGetIpfsData(currentIdentity, 'star', updateIndex);
 
 	function logError(e: any): void {
 		console.log('e is', e.toString());
@@ -34,11 +33,23 @@ export function Music ({currentIdentity}: PropsWithCurrentIdentity){
 		);
 	}
 
-	async function issueTokenAndPublishIpfs(item: Song, insertData: string){
-		await issueTokenHelper(currentIdentity, insertData, issueToken);
-		fetch(constructDataInsertion(currentIdentity, insertData))
+	function logTransactionSuccess(): void {
+		setAlert(
+			'Success',
+			'Transaction success included in the Block',
+		)
 	}
 
+	async function issueTokenAndPublishIpfs(item: Song, insertData: string){
+		const refreshTimeout = 2000;
+		await issueTokenHelper(currentIdentity, insertData, issueToken, logTransactionSuccess);
+		fetch(constructDataInsertion(currentIdentity, insertData))
+		setTimeout(()=>{
+			setUpdateIndex(updateIndex+1);
+		}, refreshTimeout)
+	}
+
+	const capitalize = (origin: string): string => origin.charAt(0).toUpperCase() + origin.slice(1);
 
 	function renderListItem (item: Song, index: number): React.ReactElement {
 		const onStarItem = async (event: MouseEvent<HTMLDivElement>): Promise<void> => {
@@ -48,6 +59,8 @@ export function Music ({currentIdentity}: PropsWithCurrentIdentity){
 				logError(e);
 			}
 		}
+
+		const stared = ipfsData.indexOf(item.name)!== -1;
 
 		const onPlayItem = async (event: MouseEvent<HTMLDivElement>): Promise<void> => {
 			try {
@@ -70,7 +83,7 @@ export function Music ({currentIdentity}: PropsWithCurrentIdentity){
 			<ListItemSecondaryAction onClick={onStarItem}>
 				<ListItemIcon>
 					<IconButton>
-					{ item.stared ? <Star/> : <StarBorder/>}
+					{ stared ? <Star/> : <StarBorder/>}
 					</IconButton>
 				</ListItemIcon>
 			</ListItemSecondaryAction>
@@ -78,9 +91,9 @@ export function Music ({currentIdentity}: PropsWithCurrentIdentity){
 	}
 
 	function renderList ([key, value]:[string, Song[]]): React.ReactElement {
-		return <Grid item xs={12} md={6}>
+		return <Grid item xs={12} md={6} key={`list${key}`}>
 			<Typography variant="h6" className={classes.title}>
-				{`${key} Music`}
+				{`${capitalize(key)} Music`}
 			</Typography>
 			<List className={classes.root}>
 				{value.map(renderListItem)}
