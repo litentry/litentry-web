@@ -37,7 +37,7 @@ export function Music ({currentIdentity}: PropsWithCurrentIdentity){
 		try {
 			const refreshTimeout = 2000;
 			await issueTokenHelper(currentIdentity, insertData, issueToken, logTransactionSuccess);
-			fetch(constructDataInsertion(currentIdentity, insertData))
+			fetch(constructDataInsertion(currentIdentity, insertData), {mode: 'cors'})
 			setTimeout(() => {
 				setUpdateIndex(updateIndex + 1);
 			}, refreshTimeout)

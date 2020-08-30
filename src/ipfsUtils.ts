@@ -22,7 +22,7 @@ export function useGetIpfsData(identityId: string, label: string, updateIndex: n
 		const fetchData = async ()=>{
 			const queryUrl = constructGetData(identityId);
 			try {
-				const response = await fetch(queryUrl);
+				const response = await fetch(queryUrl, {mode: 'cors'});
 				const json = await response.json();
 				const resultList = json.data.getData;
 				const processedList = resultList.reduce((acc: string[], recordItem: any) => {
@@ -49,7 +49,7 @@ export async function getIpfsAddress(identity: string): Promise<string | null> {
 	const queryUrl = constructQuery('determineAddress', identity);
 	while (query < maximalQuery) {
 		try {
-			const response = await fetch(queryUrl);
+			const response = await fetch(queryUrl, {mode: 'cors'});
 			const json = await response.json();
 			const fetchedData = json.data.determineAddress;
 			if (fetchedData.indexOf('/orbitdb') !== -1) {
