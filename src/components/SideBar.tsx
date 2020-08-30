@@ -66,7 +66,7 @@ export default function SideBar() {
 		},
 		{
 			text: 'Litentry Graphql',
-			link: 'http://52.28.235.180:4000/playground'
+			link: 'https://graphql.litentry.com:4000/playground'
 		}
 	]
 

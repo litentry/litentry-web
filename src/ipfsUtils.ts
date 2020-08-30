@@ -5,15 +5,15 @@ const fetch = window.fetch || require('node-fetch');
 const recordKey = 'playgroundRecord';
 
 export function constructDataInsertion(identity: string, data: string): string {
-	return `http://${graphqlServer}:4000/graphql?query={addData(identityId:"${identity}",data:"${data}")}`;
+	return `https://${graphqlServer}:4000/graphql?query={addData(identityId:"${identity}",data:"${data}")}`;
 }
 
 export function constructGetData(identity: string){
-	return `http://${graphqlServer}:4000/graphql?query={getData(identityId:"${identity}"){${recordKey}}}`;
+	return `https://${graphqlServer}:4000/graphql?query={getData(identityId:"${identity}"){${recordKey}}}`;
 }
 
 function constructQuery(methodName: string, identity: string): string {
-	return `http://${graphqlServer}:4000/graphql?query={${methodName}(identityId:"${identity}")}`;
+	return `https://${graphqlServer}:4000/graphql?query={${methodName}(identityId:"${identity}")}`;
 }
 
 export function useGetIpfsData(identityId: string, label: string, updateIndex: number): string[]{
