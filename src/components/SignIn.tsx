@@ -2,13 +2,16 @@ import {
 	Button,
 	Container,
 } from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
 import React, {useContext, useEffect, useState} from 'react';
 import QrReader from 'react-qr-reader';
 import {useTokenOwner} from '../hooks';
 import {AlertStateContext} from '../stores/alertContext';
 import {AppStateContext} from '../stores/appStateContext';
+import {commonStyles} from '../styles/common';
 import Alert from './Alert';
 import {PlaceHolder} from './PlaceHolder';
+import Text from './Text';
 
 const  validateSignInQR = (data: string | null): boolean => data !== null && data.split(':')[0] === 'address';
 
@@ -20,6 +23,8 @@ export default function SignIn() {
 	const tokenOwner = useTokenOwner(identity);
 	const {setAlert} = useContext(AlertStateContext);
 	const { currentIdentity} = state;
+	const useStyles = makeStyles(commonStyles);
+	const classes = useStyles();
 
 	useEffect(()=> {
 		console.log('token owner', tokenOwner, 'currentIdentity:' , currentIdentity, 'token : ', identity);
@@ -44,7 +49,10 @@ export default function SignIn() {
 	};
 
 	return <Container>
-		<PlaceHolder text="Sign In" variant="h3"/>
+		<Container className={classes.pageTitle}>
+			<Text text="Sign In" variant="h3"/>
+			<Text wrap text="Following this guide on the left if this is your first time playing." variant="subtitle1"/>
+		</Container>
 
 		{scannerOpen ?
 			!currentIdentity || currentIdentity === '' ?

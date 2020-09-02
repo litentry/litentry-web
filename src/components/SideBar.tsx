@@ -46,7 +46,7 @@ export default function SideBar() {
 		},
 		{
 			icon: <Create/>,
-			text: 'Twitter App',
+			text: 'Twitting App',
 			route: 'blog',
 		}
 	]
@@ -54,7 +54,7 @@ export default function SideBar() {
 	const relatedLinks = [
 		{
 			text: 'Guide',
-			link: 'https://www.litentry.com/blog'
+			link: 'https://www.litentry.com/post/play-litentry-dapps-with-ipfs-part-1'
 		},
 		{
 			text: 'Litentry Data Center',
